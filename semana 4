@@ -1,0 +1,102 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Paciente {
+private:
+    string nombre;
+    int edad;
+    string numeroIdentificacion;
+    string diagnostico;
+    string fechaTurno;
+
+public:
+    Paciente(string nom, int ed, string id, string diag, string fecha) {
+        nombre = nom;
+        edad = ed;
+        numeroIdentificacion = id;
+        diagnostico = diag;
+        fechaTurno = fecha;
+    }
+
+    string getNombre() { return nombre; }
+    int getEdad() { return edad; }
+    string getNumeroIdentificacion() { return numeroIdentificacion; }
+    string getDiagnostico() { return diagnostico; }
+    string getFechaTurno() { return fechaTurno; }
+
+    void setNombre(string nom) { nombre = nom; }
+    void setEdad(int ed) { edad = ed; }
+    void setNumeroIdentificacion(string id) { numeroIdentificacion = id; }
+    void setDiagnostico(string diag) { diagnostico = diag; }
+    void setFechaTurno(string fecha) { fechaTurno = fecha; }
+};
+
+class Agenda {
+private:
+    vector<Paciente> pacientes;
+
+public:
+    void agregarPaciente(Paciente p) {
+        pacientes.push_back(p);
+    }
+
+    void eliminarPaciente(string id) {
+        for (auto it = pacientes.begin(); it != pacientes.end(); ++it) {
+            if (it->getNumeroIdentificacion() == id) {
+                pacientes.erase(it);
+                break;
+            }
+        }
+    }
+
+    Paciente* buscarPaciente(string id) {
+        for (auto& p : pacientes) {
+            if (p.getNumeroIdentificacion() == id) {
+                return &p;
+            }
+        }
+        return nullptr;
+    }
+
+    void mostrarAgenda() {
+        for (const auto& p : pacientes) {
+            cout << "Nombre: " << p.getNombre() << endl;
+            cout << "Edad: " << p.getEdad() << endl;
+            cout << "Número de Identificación: " << p.getNumeroIdentificacion() << endl;
+            cout << "Diagnóstico: " << p.getDiagnostico() << endl;
+            cout << "Fecha de Turno: " << p.getFechaTurno() << endl;
+            cout << "----------------------" << endl;
+        }
+    }
+};
+
+int main() {
+    Agenda agenda;
+
+    Paciente p1("Juan Pérez", 30, "12345678", "Gripe", "2023-10-01");
+    Paciente p2("Ana Gómez", 45, "87654321", "Fractura", "2023-10-02");
+
+    agenda.agregarPaciente(p1);
+    agenda.agregarPaciente(p2);
+
+    cout << "Agenda de Turnos:" << endl;
+    agenda.mostrarAgenda();
+
+    string idBuscar = "87654321";
+    Paciente* pacienteEncontrado = agenda.buscarPaciente(idBuscar);
+    if (pacienteEncontrado) {
+        cout << "Paciente encontrado:" << endl;
+        cout << "Nombre: " << pacienteEncontrado->getNombre() << endl;
+        cout << "Edad: " << pacienteEncontrado->getEdad() << endl;
+        cout << "Número de Identificación: " << pacienteEncontrado->getNumeroIdentificacion() << endl;
+        cout << "Diagnóstico: " << pacienteEncontrado->getDiagnostico() << endl;
+        cout << "Fecha de Turno: " << pacienteEncontrado->getFechaTurno() << endl;
+    } else {
+        cout << "Paciente no encontrado." << endl;
+    }
+
+    return 0;
+}
