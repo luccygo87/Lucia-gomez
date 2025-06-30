@@ -1,0 +1,33 @@
+Escribir un programa que almacene las asignaturas de un curso (por ejemplo Matemáticas, Física, Química, Historia y Lengua) en una lista y la muestre por pantalla.
+subjects = ["Matemáticas", "Física", "Química", "Historia", "Lengua"]
+print(subjects)
+
+Escribir un programa que almacene las asignaturas de un curso (por ejemplo Matemáticas, Física, Química, Historia y Lengua) en una lista y la muestre por pantalla.
+subjects = ["Matemáticas", "Física", "Química", "Historia", "Lengua"]
+for subject in subjects:
+    print("Yo estudio " + subject)
+
+Escribir un programa que almacene las asignaturas de un curso (por ejemplo Matemáticas, Física, Química, Historia y Lengua) en una lista y la muestre por pantalla.
+subjects = ["Matemáticas", "Física", "Química", "Historia", "Lengua"]
+scores = []
+for subject in subjects:
+    score = input("¿Qué nota has sacado en " + subject + "?")
+    scores.append(score)
+for i in range(len(subjects)):
+    print("En " + subjects[i] + " has sacado " + scores[i])
+
+Escribir un programa que pregunte al usuario los números ganadores de la lotería primitiva, los almacene en una lista y los muestre por pantalla ordenados de menor a mayor.
+awarded = []
+for i in range(6):
+    awarded.append(int(input("Introduce un número ganador: ")))
+awarded.sort()
+print("Los números ganadores son " + str(awarded))
+
+Escribir un programa que almacene en una lista los números del 1 al 10 y los muestre por pantalla en orden inverso separados por comas.
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+for i in range(1, 11):
+    print(numbers[-i], end=", ")
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+numbers.reverse()
+for number in numbers:
+    print(number, end=", ")
