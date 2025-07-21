@@ -1,0 +1,92 @@
+using System;
+using System.Collections.Generic;
+
+class Asiento
+{
+    public int Numero { get; set; }
+    public bool Ocupado { get; set; }
+
+    public Asiento(int numero)
+    {
+        Numero = numero;
+        Ocupado = false;
+    }
+}
+
+class ParqueDeDiversiones
+{
+    private Queue<string> colaDeEspera;
+    private List<Asiento> asientos;
+
+    public ParqueDeDiversiones()
+    {
+        colaDeEspera = new Queue<string>();
+        asientos = new List<Asiento>();
+        InicializarAsientos();
+    }
+
+    private void InicializarAsientos()
+    {
+        for (int i = 1; i <= 30; i++)
+        {
+            asientos.Add(new Asiento(i));
+        }
+    }
+
+    public void AgregarAPersonaALaCola(string nombre)
+    {
+        colaDeEspera.Enqueue(nombre);
+        Console.WriteLine($"{nombre} ha sido añadido a la cola de espera.");
+    }
+
+    public void AsignarAsiento()
+    {
+        if (colaDeEspera.Count > 0 && asientos.Exists(a => !a.Ocupado))
+        {
+            string nombre = colaDeEspera.Dequeue();
+            Asiento asiento = asientos.Find(a => !a.Ocupado);
+            asiento.Ocupado = true;
+            Console.WriteLine($"{nombre} ha sido asignado al asiento número {asiento.Numero}.");
+        }
+        else
+        {
+            Console.WriteLine("No hay más asientos disponibles o la cola de espera está vacía.");
+        }
+    }
+
+    public void MostrarEstado()
+    {
+        Console.WriteLine("Estado de la cola de espera:");
+        foreach (var nombre in colaDeEspera)
+        {
+            Console.WriteLine(nombre);
+        }
+
+        Console.WriteLine("\nEstado de los asientos:");
+        foreach (var asiento in asientos)
+        {
+            Console.WriteLine($"Asiento {asiento.Numero}: {(asiento.Ocupado ? "Ocupado" : "Disponible")}");
+        }
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        ParqueDeDiversiones parque = new ParqueDeDiversiones();
+
+        // Agregar personas a la cola de espera
+        parque.AgregarAPersonaALaCola("Juan");
+        parque.AgregarAPersonaALaCola("Maria");
+        parque.AgregarAPersonaALaCola("Carlos");
+
+        // Asignar asientos
+        parque.AsignarAsiento();
+        parque.AsignarAsiento();
+        parque.AsignarAsiento();
+
+        // Mostrar estado
+        parque.MostrarEstado();
+    }
+}
