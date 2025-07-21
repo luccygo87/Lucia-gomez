@@ -1,0 +1,33 @@
+class Contacto:
+    def __init__(self, nombre, telefono, correo):
+        self.nombre = nombre
+        self.telefono = telefono
+        self.correo = correo
+
+class AgendaTelefonica:
+    def __init__(self):
+        self.contactos = []
+
+    def agregar_contacto(self, contacto):
+        self.contactos.append(contacto)
+
+    def consultar_contacto(self, nombre):
+        for contacto in self.contactos:
+            if contacto.nombre == nombre:
+                return contacto
+        return None
+
+    def modificar_contacto(self, nombre, nuevo_telefono, nuevo_correo):
+        contacto = self.consultar_contacto(nombre)
+        if contacto:
+            contacto.telefono = nuevo_telefono
+            contacto.correo = nuevo_correo
+
+    def eliminar_contacto(self, nombre):
+        contacto = self.consultar_contacto(nombre)
+        if contacto:
+            self.contactos.remove(contacto)
+
+    def listar_contactos(self):
+        for contacto in self.contactos:
+            print(f"Nombre: {contacto.nombre}, Teléfono: {contacto.telefono}, Correo: {contacto.correo}")
