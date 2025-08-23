@@ -1,0 +1,87 @@
+using System;
+using System.Collections.Generic;
+
+public class Ciudadano
+{
+    public string Nombre { get; set; }
+    public bool Vacunado { get; set; }
+    public string Vacuna { get; set; }
+}
+
+public class Program
+{
+    public static void Main()
+    {
+        List<Ciudadano> ciudadanos = GenerarCiudadanos(500);
+        List<Ciudadano> vacunadosPfizer = GenerarVacunados("Pfizer", 75);
+        List<Ciudadano> vacunadosAstraZeneca = GenerarVacunados("AstraZeneca", 75);
+
+        // Operaciones de teoría de conjuntos
+        List<Ciudadano> noVacunados = ObtenerNoVacunados(ciudadanos);
+        List<Ciudadano> ambasDosis = ObtenerAmbasDosis(ciudadanos);
+        List<Ciudadano> soloPfizer = ObtenerSoloPfizer(ciudadanos, vacunadosPfizer);
+        List<Ciudadano> soloAstraZeneca = ObtenerSoloAstraZeneca(ciudadanos, vacunadosAstraZeneca);
+
+        // Imprimir resultados
+        Console.WriteLine("Ciudadanos no vacunados:");
+        ImprimirCiudadanos(noVacunados);
+
+        Console.WriteLine("\nCiudadanos con ambas dosis:");
+        ImprimirCiudadanos(ambasDosis);
+
+        Console.WriteLine("\nCiudadanos solo con Pfizer:");
+        ImprimirCiudadanos(soloPfizer);
+
+        Console.WriteLine("\nCiudadanos solo con AstraZeneca:");
+        ImprimirCiudadanos(soloAstraZeneca);
+    }
+
+    public static List<Ciudadano> GenerarCiudadanos(int cantidad)
+    {
+        List<Ciudadano> ciudadanos = new List<Ciudadano>();
+        for (int i = 1; i <= cantidad; i++)
+        {
+            ciudadanos.Add(new Ciudadano { Nombre = $"Ciudadano {i}", Vacunado = false, Vacuna = "" });
+        }
+        return ciudadanos;
+    }
+
+    public static List<Ciudadano> GenerarVacunados(string vacuna, int cantidad)
+    {
+        List<Ciudadano> vacunados = new List<Ciudadano>();
+        for (int i = 1; i <= cantidad; i++)
+        {
+            vacunados.Add(new Ciudadano { Nombre = $"Vacunado {vacuna} {i}", Vacunado = true, Vacuna = vacuna });
+        }
+        return vacunados;
+    }
+
+    public static List<Ciudadano> ObtenerNoVacunados(List<Ciudadano> ciudadanos)
+    {
+        return ciudadanos.FindAll(c => !c.Vacunado);
+    }
+
+    public static List<Ciudadano> ObtenerAmbasDosis(List<Ciudadano> ciudadanos)
+    {
+        // Supongamos que todos los vacunados tienen ambas dosis
+        return ciudadanos.FindAll(c => c.Vacunado);
+    }
+
+    public static List<Ciudadano> ObtenerSoloPfizer(List<Ciudadano> ciudadanos, List<Ciudadano> vacunadosPfizer)
+    {
+        return vacunadosPfizer;
+    }
+
+    public static List<Ciudadano> ObtenerSoloAstraZeneca(List<Ciudadano> ciudadanos, List<Ciudadano> vacunadosAstraZeneca)
+    {
+        return vacunadosAstraZeneca;
+    }
+
+    public static void ImprimirCiudadanos(List<Ciudadano> ciudadanos)
+    {
+        foreach (var ciudadano in ciudadanos)
+        {
+            Console.WriteLine($"{ciudadano.Nombre} - Vacunado: {ciudadano.Vacunado} - Vacuna: {ciudadano.Vacuna}");
+        }
+    }
+}
