@@ -1,87 +1,66 @@
-using System;
-using System.Collections.Generic;
+class Ciudadano:
+    def __init__(self, nombre, vacunado=False, vacuna=""):
+        self.nombre = nombre
+        self.vacunado = vacunado
+        self.vacuna = vacuna
 
-public class Ciudadano
-{
-    public string Nombre { get; set; }
-    public bool Vacunado { get; set; }
-    public string Vacuna { get; set; }
-}
+    def __hash__(self):
+        return hash(self.nombre)
 
-public class Program
-{
-    public static void Main()
-    {
-        List<Ciudadano> ciudadanos = GenerarCiudadanos(500);
-        List<Ciudadano> vacunadosPfizer = GenerarVacunados("Pfizer", 75);
-        List<Ciudadano> vacunadosAstraZeneca = GenerarVacunados("AstraZeneca", 75);
+    def __eq__(self, other):
+        if isinstance(other, Ciudadano):
+            return self.nombre == other.nombre
+        return False
 
-        // Operaciones de teoría de conjuntos
-        List<Ciudadano> noVacunados = ObtenerNoVacunados(ciudadanos);
-        List<Ciudadano> ambasDosis = ObtenerAmbasDosis(ciudadanos);
-        List<Ciudadano> soloPfizer = ObtenerSoloPfizer(ciudadanos, vacunadosPfizer);
-        List<Ciudadano> soloAstraZeneca = ObtenerSoloAstraZeneca(ciudadanos, vacunadosAstraZeneca);
+    def __repr__(self):
+        return f"{self.nombre} - Vacunado: {self.vacunado} - Vacuna: {self.vacuna}"
 
-        // Imprimir resultados
-        Console.WriteLine("Ciudadanos no vacunados:");
-        ImprimirCiudadanos(noVacunados);
+def generar_ciudadanos(cantidad):
+    return {Ciudadano(f"Ciudadano {i}") for i in range(1, cantidad + 1)}
 
-        Console.WriteLine("\nCiudadanos con ambas dosis:");
-        ImprimirCiudadanos(ambasDosis);
+def generar_vacunados(vacuna, cantidad):
+    return {Ciudadano(f"Vacunado {vacuna} {i}", vacunado=True, vacuna=vacuna) for i in range(1, cantidad + 1)}
 
-        Console.WriteLine("\nCiudadanos solo con Pfizer:");
-        ImprimirCiudadanos(soloPfizer);
+def obtener_no_vacunados(ciudadanos):
+    return {ciudadano for ciudadano in ciudadanos if not ciudadano.vacunado}
 
-        Console.WriteLine("\nCiudadanos solo con AstraZeneca:");
-        ImprimirCiudadanos(soloAstraZeneca);
-    }
+def obtener_ambas_dosis(ciudadanos):
+    # Supongamos que todos los vacunados tienen ambas dosis
+    return {ciudadano for ciudadano in ciudadanos if ciudadano.vacunado}
 
-    public static List<Ciudadano> GenerarCiudadanos(int cantidad)
-    {
-        List<Ciudadano> ciudadanos = new List<Ciudadano>();
-        for (int i = 1; i <= cantidad; i++)
-        {
-            ciudadanos.Add(new Ciudadano { Nombre = $"Ciudadano {i}", Vacunado = false, Vacuna = "" });
-        }
-        return ciudadanos;
-    }
+def obtener_solo_pfizer(ciudadanos, vacunados_pfizer):
+    return vacunados_pfizer
 
-    public static List<Ciudadano> GenerarVacunados(string vacuna, int cantidad)
-    {
-        List<Ciudadano> vacunados = new List<Ciudadano>();
-        for (int i = 1; i <= cantidad; i++)
-        {
-            vacunados.Add(new Ciudadano { Nombre = $"Vacunado {vacuna} {i}", Vacunado = true, Vacuna = vacuna });
-        }
-        return vacunados;
-    }
+def obtener_solo_astrazeneca(ciudadanos, vacunados_astrazeneca):
+    return vacunados_astrazeneca
 
-    public static List<Ciudadano> ObtenerNoVacunados(List<Ciudadano> ciudadanos)
-    {
-        return ciudadanos.FindAll(c => !c.Vacunado);
-    }
+def imprimir_ciudadanos(ciudadanos):
+    for ciudadano in ciudadanos:
+        print(ciudadano)
 
-    public static List<Ciudadano> ObtenerAmbasDosis(List<Ciudadano> ciudadanos)
-    {
-        // Supongamos que todos los vacunados tienen ambas dosis
-        return ciudadanos.FindAll(c => c.Vacunado);
-    }
+def main():
+    ciudadanos = generar_ciudadanos(500)
+    vacunados_pfizer = generar_vacunados("Pfizer", 75)
+    vacunados_astrazeneca = generar_vacunados("AstraZeneca", 75)
 
-    public static List<Ciudadano> ObtenerSoloPfizer(List<Ciudadano> ciudadanos, List<Ciudadano> vacunadosPfizer)
-    {
-        return vacunadosPfizer;
-    }
+    # Operaciones de teoría de conjuntos
+    no_vacunados = obtener_no_vacunados(ciudadanos)
+    ambas_dosis = obtener_ambas_dosis(ciudadanos)
+    solo_pfizer = obtener_solo_pfizer(ciudadanos, vacunados_pfizer)
+    solo_astrazeneca = obtener_solo_astrazeneca(ciudadanos, vacunados_astrazeneca)
 
-    public static List<Ciudadano> ObtenerSoloAstraZeneca(List<Ciudadano> ciudadanos, List<Ciudadano> vacunadosAstraZeneca)
-    {
-        return vacunadosAstraZeneca;
-    }
+    # Imprimir resultados
+    print("Ciudadanos no vacunados:")
+    imprimir_ciudadanos(no_vacunados)
 
-    public static void ImprimirCiudadanos(List<Ciudadano> ciudadanos)
-    {
-        foreach (var ciudadano in ciudadanos)
-        {
-            Console.WriteLine($"{ciudadano.Nombre} - Vacunado: {ciudadano.Vacunado} - Vacuna: {ciudadano.Vacuna}");
-        }
-    }
-}
+    print("\nCiudadanos con ambas dosis:")
+    imprimir_ciudadanos(ambas_dosis)
+
+    print("\nCiudadanos solo con Pfizer:")
+    imprimir_ciudadanos(solo_pfizer)
+
+    print("\nCiudadanos solo con AstraZeneca:")
+    imprimir_ciudadanos(solo_astrazeneca)
+
+if __name__ == "__main__":
+    main()
