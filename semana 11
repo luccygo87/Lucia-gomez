@@ -1,0 +1,63 @@
+# Diccionario inicial con palabras y sus traducciones
+diccionario = {
+    "tiempo": "Time",
+    "persona": "Person",
+    "año": "Year",
+    "camino": "Way",
+    "día": "Day",
+    "cosa": "Thing",
+    "hombre": "Man",
+    "mundo": "World",
+    "vida": "Life",
+    "mano": "Hand",
+    "parte": "Part",
+    "niño/a": "Child",
+    "ojo": "Eye",
+    "mujer": "Woman",
+    "lugar": "Place",
+    "trabajo": "Work",
+    "semana": "Week",
+    "caso": "Case",
+    "punto": "Point",
+    "gobierno": "Government",
+    "empresa": "Company"
+}
+
+def traducir(frase):
+    palabras = frase.split()
+    traduccion = []
+    
+    for palabra in palabras:
+        # Se traduce la palabra si está en el diccionario
+        traduccion.append(diccionario.get(palabra.lower(), palabra))
+    
+    return ' '.join(traduccion)
+
+def agregar_palabra(esp, ing):
+    diccionario[esp.lower()] = ing
+    print(f"Palabra agregada: {esp} - {ing}")
+
+def menu():
+    while True:
+        print("==================== MENÚ ====================")
+        print("1. Traducir una frase")
+        print("2. Agregar palabras al diccionario")
+        print("0. Salir")
+        opcion = input("Seleccione una opción: ")
+
+        if opcion == '1':
+            frase = input("Frase ingresada: ")
+            traduccion = traducir(frase)
+            print(f"Traducción: {traduccion}")
+        elif opcion == '2':
+            esp = input("Ingrese la palabra en español: ")
+            ing = input("Ingrese la traducción en inglés: ")
+            agregar_palabra(esp, ing)
+        elif opcion == '0':
+            print("Saliendo del programa...")
+            break
+        else:
+            print("Opción no válida. Intente de nuevo.")
+
+if __name__ == "__main__":
+    menu()
