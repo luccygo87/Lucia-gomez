@@ -1,0 +1,51 @@
+class Revista:
+    def __init__(self, titulo):
+        self.titulo = titulo
+
+class CatalogoRevistas:
+    def __init__(self):
+        self.revistas = [
+            Revista("Ciencia y Tecnología"),
+            Revista("Historia y Cultura"),
+            Revista("Viajes y Aventura"),
+            Revista("Moda y Belleza"),
+            Revista("Deportes Extremos"),
+            Revista("Cocina Gourmet"),
+            Revista("Arte y Literatura"),
+            Revista("Ciencias Naturales"),
+            Revista("Economía y Finanzas"),
+            Revista("Salud y Bienestar")
+        ]
+
+    # Método para buscar un título recursivamente
+    def buscar_titulo_recursivo(self, titulo, indice):
+        if indice < 0 or indice >= len(self.revistas):
+            return False
+        if self.revistas[indice].titulo.lower() == titulo.lower():
+            return True
+        return self.buscar_titulo_recursivo(titulo, indice + 1)
+
+def main():
+    catalogo = CatalogoRevistas()
+
+    while True:
+        print("Menú de Opciones:")
+        print("1. Buscar título de revista")
+        print("2. Salir")
+        opcion = input("Seleccione una opción: ")
+
+        if opcion == "1":
+            titulo_buscado = input("Ingrese el título de la revista a buscar: ")
+            encontrado = catalogo.buscar_titulo_recursivo(titulo_buscado, 0)
+            if encontrado:
+                print("Encontrado")
+            else:
+                print("No encontrado")
+        elif opcion == "2":
+            print("Saliendo del programa...")
+            break
+        else:
+            print("Opción no válida. Intente nuevamente.")
+
+if __name__ == "__main__":
+    main()
